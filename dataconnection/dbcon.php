@@ -3,7 +3,7 @@ class connection {
     private static $instatns =null ;
     private $conn = null;
     private $host = "localhost" ;
-    private $dbName = "Drive_Loc2";
+    private $dbName = "youdemy";
     private $password = '';
     private $userName = "root";
     private function __construct(){
