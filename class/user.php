@@ -1,4 +1,5 @@
 <?php
+include "../sanitize/signUpSanitze.php";
 class User
 {
     private ?int $id = null;
@@ -15,8 +16,20 @@ class User
 
     public function signUp(string $name, string $email, string $password, string $user_type): array
     {
+        $name = Sanitizer::sanitizeString($name);
+        $email = Sanitizer::sanitizeString($email);
+        if (!Sanitizer::validateEmail($email)) {
+            return ['status' => 0, 'message' => 'Invalid email address.'];
+        }
+
+        if (!Sanitizer::validatePassword($password)) {
+            return ['status' => 0, 'message' => 'Password must be at least 8 characters long and contain at least one letter and one number.'];
+        }
+
+        if (!Sanitizer::validateUserType($user_type)) {
+            return ['status' => 0, 'message' => 'Invalid user type.'];
+        }
         try {
-            // Check if the email already exists
             $query = "SELECT id FROM users WHERE email = :email";
             $stmt = $this->db->prepare($query);
             $stmt->execute([':email' => $email]);
@@ -24,14 +37,8 @@ class User
             if ($stmt->fetch()) {
                 return ['status' => 0, 'message' => 'Email already exists.'];
             }
-
-            // Determine account_status based on user_type
             $accountStatus = ($user_type === 'Student') ? 'Active' : 'Inactive';
-
-            // Hash the password
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-            // Insert the user into the database
             $query = "INSERT INTO users (name, email, password, user_type, account_status) 
                         VALUES (:name, :email, :password, :user_type, :account_status)";
             $stmt = $this->db->prepare($query);
@@ -51,6 +58,13 @@ class User
 
     public function logIn(string $email, string $password): array
     {
+        if (!Sanitizer::validateEmail($email)) {
+            return ['status' => 0, 'message' => 'Invalid email address.'];
+        }
+
+        if (!Sanitizer::validatePassword($password)) {
+            return ['status' => 0, 'message' => 'Password must be at least 8 characters long and contain at least one letter and one number.'];
+        }
         try {
             $query = "SELECT * FROM users WHERE email = :email";
             $stmt = $this->db->prepare($query);
@@ -109,7 +123,6 @@ class User
             return ['status' => 0, 'message' => 'Error: ' . $e->getMessage()];
         }
     }
-
     private function getStudentCourses(int $studentId): array
     {
         $query = "SELECT c.id AS course_id, c.title, c.description
