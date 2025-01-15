@@ -5,7 +5,8 @@ CREATE TABLE User (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    user_type ENUM('Student', 'Teacher', 'Administrator') NOT NULL
+    user_type ENUM('Student', 'Teacher', 'Administrator') NOT NULL,
+    account_status ENUM('Active', 'Inactive') NOT NULL DEFAULT 'Active',
 );
 CREATE TABLE Category (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -19,7 +20,10 @@ CREATE TABLE Course (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    content TEXT NOT NULL,
+    content_type ENUM('Video', 'Text') NOT NULL,
+    status ENUM('accepted', 'pending','rejected') NOT NULL DEFAULT 'pending',
+    vedio_url VARCHAR(255) ,
+    content TEXT ,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE Course_Category (
