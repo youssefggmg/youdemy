@@ -9,7 +9,8 @@ class Admine extends User
     {
         parent::__construct($db);
     }
-    public function ActivatUser($id){
+    public function ActivatUser($id)
+    {
         try {
             $query = "SELECT account_status from User where id = '$id'";
             $stmt = $this->db->prepare($query);
@@ -58,29 +59,52 @@ class Admine extends User
         }
     }
     public function deleteUser($id)
-{
-    try {
-        $query = "SELECT id FROM User WHERE id = :id";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        $result = $stmt->fetch();
-        if (!$result) {
-            return ["status" => 0, "error" => "User not found"];
-        }
-        $query = "DELETE FROM User WHERE id = :id";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $executed = $stmt->execute();
+    {
+        try {
+            $query = "SELECT id FROM User WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            if (!$result) {
+                return ["status" => 0, "error" => "User not found"];
+            }
+            $query = "DELETE FROM User WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $executed = $stmt->execute();
 
-        if ($executed) {
-            return ["status" => 1, "message" => "User deleted successfully"];
-        } else {
-            return ["status" => 0, "message" => "User could not be deleted"];
+            if ($executed) {
+                return ["status" => 1, "message" => "User deleted successfully"];
+            } else {
+                return ["status" => 0, "message" => "User could not be deleted"];
+            }
+        } catch (PDOException $e) {
+            return ["status" => 0, "error" => "Error: " . $e->getMessage()];
         }
-    } catch (PDOException $e) {
-        return ["status" => 0, "error" => "Error: " . $e->getMessage()];
     }
-}
+    public function getTeachersAccount(){
+        try {
+            $query = "SELECT * FROM User WHERE user_type = 'Teacher'";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return ["status"=>1,"message"=>$result];
+        } catch (PDOException $e) {
+            return ["status" => 0, "error" => "Error: " . $e->getMessage()];
+        }
+    }
+    public function getAllStudents(){
+        try {
+            $query = "SELECT * FROM User WHERE user_type = 'Student'";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return ["status"=>1,"message"=>$result];
+        } catch (PDOException $e) {
+            return ["status" => 0, "error" => "Error: " . $e->getMessage()];
+        }
+    }
+    
 }
 ?>
