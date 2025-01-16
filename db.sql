@@ -25,6 +25,8 @@ CREATE TABLE Course (
     vedio_url VARCHAR(255) ,
     content TEXT ,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    teacher_ID int ,
+    CONSTRAINT fk_teacher FOREIGN KEY (teacher_ID) REFERENCES User(id)
 );
 CREATE TABLE Course_Category (
 	id int primary key auto_increment,

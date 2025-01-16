@@ -2,12 +2,12 @@
 include "../sanitize/signUpSanitze.php";
 class User
 {
-    private ?int $id = null;
-    private ?string $name = null;
-    private ?string $email = null;
+    protected ?int $id = null;
+    protected ?string $name = null;
+    protected ?string $email = null;
     private ?string $password = null;
-    private ?string $user_type = null;
-    private $db;
+    protected ?string $user_type = null;
+    protected $db;
 
     public function __construct($db)
     {
