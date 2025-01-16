@@ -83,28 +83,47 @@ class Admine extends User
             return ["status" => 0, "error" => "Error: " . $e->getMessage()];
         }
     }
-    public function getTeachersAccount(){
+    public function getTeachersAccount()
+    {
         try {
             $query = "SELECT * FROM User WHERE user_type = 'Teacher'";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             $result = $stmt->fetchAll();
-            return ["status"=>1,"message"=>$result];
+            return ["status" => 1, "message" => $result];
         } catch (PDOException $e) {
             return ["status" => 0, "error" => "Error: " . $e->getMessage()];
         }
     }
-    public function getAllStudents(){
+    public function getAllStudents()
+    {
         try {
             $query = "SELECT * FROM User WHERE user_type = 'Student'";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             $result = $stmt->fetchAll();
-            return ["status"=>1,"message"=>$result];
+            return ["status" => 1, "message" => $result];
         } catch (PDOException $e) {
             return ["status" => 0, "error" => "Error: " . $e->getMessage()];
         }
     }
-    
+    public function approveCourse($id)
+    {
+        try {
+            $query = "UPDATE Course SET status = 'accepted' WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+            $executed= $stmt->execute([
+                ':id' => $id
+            ]);
+            if ($executed) {
+                return ["status" => 1, "message" => "Course approved successfully"];
+            }
+            else{
+                return ["status" => 0, "message" => "Course could not be approved"];
+            }
+        } catch (PDOException $e) {
+            return ["status" => 0, "error" => "Error: " . $e->getMessage()];
+        }
+    }
 }
 ?>
