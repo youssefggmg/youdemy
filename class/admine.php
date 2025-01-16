@@ -163,10 +163,37 @@ class Admine extends User
     public function generatePlatformStatistics()
     {
         try {
-
+            $query = "SELECT COUNT(*) as total FROM Course";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $totalCourses = $result["total"];
+            $query = "SELECT COUNT(*) as approved FROM Course WHERE status = 'approved'";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $totalApprovedCourses = $result["total"];
+            $query = "SELECT COUNT(*) as rejected FROM Course WHERE status = 'rejected'";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $totalRejectedCourses = $result["total"];
+            $query = "SELECT COUNT(*) as pending FROM Course WHERE status = 'pending'";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $totalPendingCourses = $result["total"];
+            $platformStatistics = [
+                "totalCourses" => $totalCourses,
+                "totalApprovedCourses" => $totalApprovedCourses,
+                "totalRejectedCourses" => $totalRejectedCourses,
+                "totalPendingCourses" => $totalPendingCourses
+                ];
+                return ["status"=>1,"message"=>$platformStatistics];
         } catch (PDOException $e) {
             return ["status" => 0, "error" => "Error: " . $e->getMessage()];
         }
     }
+    
 }
 ?>
