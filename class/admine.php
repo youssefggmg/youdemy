@@ -110,16 +110,25 @@ class Admine extends User
     public function approveCourse($id)
     {
         try {
-            $query = "UPDATE Course SET status = 'accepted' WHERE id = :id";
+            $query = "SELECT status form Course where id = :id";
             $stmt = $this->db->prepare($query);
-            $executed= $stmt->execute([
-                ':id' => $id
-            ]);
-            if ($executed) {
-                return ["status" => 1, "message" => "Course approved successfully"];
-            }
-            else{
-                return ["status" => 0, "message" => "Course could not be approved"];
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            if ($result["status"]=="accepted") {
+                return ["status"=>0,"message"=>"Course is already approved"];
+            }else{
+                $query = "UPDATE Course SET status = 'accepted' WHERE id = :id";
+                $stmt = $this->db->prepare($query);
+                $executed= $stmt->execute([
+                    ':id' => $id
+                ]);
+                if ($executed) {
+                    return ["status" => 1, "message" => "Course approved successfully"];
+                }
+                else{
+                    return ["status" => 0, "message" => "Course could not be approved"];
+                }
             }
         } catch (PDOException $e) {
             return ["status" => 0, "error" => "Error: " . $e->getMessage()];
