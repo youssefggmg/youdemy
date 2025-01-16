@@ -2,16 +2,15 @@
 class Catigory
 {
     private $db;
-    public function __construct($db)
+    public function createTags($tags)
     {
-        $this->db = $db;
-    }
-    public function createTag($name){
         try {
             $sql = "INSERT INTO tags (name) VALUES (:name)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['name'=>$name]);
-        return ["status"=>1,"message"=>"tag created"];
+            $stmt = $this->db->prepare($sql);
+            foreach ($tags as $tag) {
+                $stmt->execute(['name' => $tag]);
+            }
+            return ["status" => 1, "message" => count($tags) . " tags created successfully."];
         } catch (PDOException $e) {
             return [
                 "status" => 0,
