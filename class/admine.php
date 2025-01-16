@@ -115,21 +115,55 @@ class Admine extends User
             $stmt->bindParam(':id', $id);
             $stmt->execute();
             $result = $stmt->fetch();
-            if ($result["status"]=="accepted") {
-                return ["status"=>0,"message"=>"Course is already approved"];
-            }else{
+            if ($result["status"] == "accepted") {
+                return ["status" => 0, "message" => "Course is already approved"];
+            } else {
                 $query = "UPDATE Course SET status = 'accepted' WHERE id = :id";
                 $stmt = $this->db->prepare($query);
-                $executed= $stmt->execute([
+                $executed = $stmt->execute([
                     ':id' => $id
                 ]);
                 if ($executed) {
                     return ["status" => 1, "message" => "Course approved successfully"];
-                }
-                else{
+                } else {
                     return ["status" => 0, "message" => "Course could not be approved"];
                 }
             }
+        } catch (PDOException $e) {
+            return ["status" => 0, "error" => "Error: " . $e->getMessage()];
+        }
+    }
+    public function rejectCourse($id)
+    {
+        try {
+            $query = "SELECT status FROM Course WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            $result = $stmt->fetch();
+
+            if ($result["status"] == "rejected") {
+                return ["status" => 0, "message" => "Course is already rejected"];
+            } else {
+                $query = "UPDATE Course SET status = 'rejected' WHERE id = :id";
+                $stmt = $this->db->prepare($query);
+                $executed = $stmt->execute([':id' => $id]);
+
+                if ($executed) {
+                    return ["status" => 1, "message" => "Course rejected successfully"];
+                } else {
+                    return ["status" => 0, "message" => "Course could not be rejected"];
+                }
+            }
+        } catch (PDOException $e) {
+            return ["status" => 0, "error" => "Error: " . $e->getMessage()];
+        }
+    }
+
+    public function generatePlatformStatistics()
+    {
+        try {
+
         } catch (PDOException $e) {
             return ["status" => 0, "error" => "Error: " . $e->getMessage()];
         }
