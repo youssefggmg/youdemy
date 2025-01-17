@@ -42,15 +42,25 @@ class User
             $query = "INSERT INTO users (name, email, password, user_type, account_status) 
                         VALUES (:name, :email, :password, :user_type, :account_status)";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([
-                ':name' => $name,
-                ':email' => $email,
-                ':password' => $hashedPassword,
-                ':user_type' => $user_type,
-                ':account_status' => $accountStatus
-            ]);
-
-            return ['status' => 1, 'message' => 'User signed up successfully.'];
+            if ($user_type == 'Student') {
+                $stmt->execute([
+                    ':name' => $name,
+                    ':email' => $email,
+                    ':password' => $hashedPassword,
+                    ':user_type' => $user_type,
+                ]);
+                return ['status' => 1, 'message' => ["userID"=>$stmt->lastInsertId(),"user_role"=>$user_type]];
+            }
+            elseif ($user_type == 'Teacher') {
+                $stmt->execute([
+                    ':name' => $name,
+                    ':email' => $email,
+                    ':password' => $hashedPassword,
+                    ':user_type' => $user_type,
+                    ':account_status' => "Inactive"
+                ]);
+                return ['status' => 1, 'message' => ["userID"=>$stmt->lastInsertId(),"user_role"=>$user_type]];
+            }
         } catch (PDOException $e) {
             return ['status' => 0, 'message' => 'Database error: ' . $e->getMessage()];
         }
