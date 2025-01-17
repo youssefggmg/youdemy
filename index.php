@@ -19,11 +19,11 @@
         <!-- Right: Login Form -->
         <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
             <h1 class="text-2xl font-semibold mb-4">Login</h1>
-            <form action="#" method="POST">
+            <form action="./controllers/signin.php" method="POST">
                 <!-- Username Input -->
                 <div class="mb-4 bg-sky-100">
-                    <label for="username" class="block text-gray-600">Username</label>
-                    <input type="text" id="username" name="username"
+                    <label for="username" class="block text-gray-600">Email</label>
+                    <input type="email" id="username" name="email" required
                         class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
                         autocomplete="off">
                 </div>
@@ -37,6 +37,14 @@
                 <!-- Login Button -->
                 <button type="submit"
                     class="bg-red-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full">Login</button>
+                    <?php 
+                    if (isset($_GET["error"])) {
+                        echo "<div class='bg-red-500 text-white p-4 rounded-md shadow-md mt-4'>
+                                <strong>Error:</strong>".$_GET["error"]."
+                            </div>";
+                    }
+                    ?>
+
             </form>
             <!-- Sign up  Link -->
             <div class="mt-6 text-green-500 text-center">

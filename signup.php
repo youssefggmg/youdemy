@@ -61,7 +61,7 @@
             </form>
             <!-- Login Link -->
             <div class="mt-6 text-green-500 text-center">
-                <a href="#" class="hover:underline">Already have an account? Login Here</a>
+                <a href="./index.php" class="hover:underline">Already have an account? Login Here</a>
             </div>
         </div>
     </div>

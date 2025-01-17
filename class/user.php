@@ -30,7 +30,7 @@ class User
             return ['status' => 0, 'message' => 'Invalid user type.'];
         }
         try {
-            $query = "SELECT id FROM users WHERE email = :email";
+            $query = "SELECT id FROM User WHERE email = :email";
             $stmt = $this->db->prepare($query);
             $stmt->execute([':email' => $email]);
 
@@ -39,28 +39,17 @@ class User
             }
             $accountStatus = ($user_type === 'Student') ? 'Active' : 'Inactive';
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $query = "INSERT INTO users (name, email, password, user_type, account_status) 
+            $query = "INSERT INTO User (name, email, password, user_type, account_status) 
                         VALUES (:name, :email, :password, :user_type, :account_status)";
             $stmt = $this->db->prepare($query);
-            if ($user_type == 'Student') {
                 $stmt->execute([
                     ':name' => $name,
                     ':email' => $email,
                     ':password' => $hashedPassword,
                     ':user_type' => $user_type,
+                    ':account_status' => $accountStatus
                 ]);
                 return ['status' => 1, 'message' => ["userID"=>$stmt->lastInsertId(),"user_role"=>$user_type]];
-            }
-            elseif ($user_type == 'Teacher') {
-                $stmt->execute([
-                    ':name' => $name,
-                    ':email' => $email,
-                    ':password' => $hashedPassword,
-                    ':user_type' => $user_type,
-                    ':account_status' => "Inactive"
-                ]);
-                return ['status' => 1, 'message' => ["userID"=>$stmt->lastInsertId(),"user_role"=>$user_type]];
-            }
         } catch (PDOException $e) {
             return ['status' => 0, 'message' => 'Database error: ' . $e->getMessage()];
         }
@@ -76,20 +65,21 @@ class User
             return ['status' => 0, 'message' => 'Password must be at least 8 characters long and contain at least one letter and one number.'];
         }
         try {
-            $query = "SELECT * FROM users WHERE email = :email";
+            $query = "SELECT * FROM User WHERE email = :email";
             $stmt = $this->db->prepare($query);
             $stmt->execute([':email' => $email]);
             $user = $stmt->fetch();
-
+            if (!$user) {
+                return ['status' => 0, 'message' => 'Email not found.'];
+            }
             if ($user && password_verify($password, $user['password'])) {
                 $this->id = $user['id'];
                 $this->name = $user['name'];
                 $this->email = $user['email'];
                 $this->user_type = $user['user_type'];
-
                 return [
                     'status' => 1,
-                    'data' => [
+                    'message' => [
                         'id' => $this->id,
                         'name' => $this->name,
                         'email' => $this->email,
@@ -105,7 +95,7 @@ class User
     public function getUserInfo(int $id): array
     {
         try {
-            $query = "SELECT * FROM users WHERE id = :id";
+            $query = "SELECT * FROM User WHERE id = :id";
             $stmt = $this->db->prepare($query);
             $stmt->execute([':id' => $id]);
             $user = $stmt->fetch();
