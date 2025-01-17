@@ -13,7 +13,7 @@ if ($result["status"]==1) {
         header("location: ");
     }
 }else {
-    header("location: ../signup.php" . urlencode($resultData));
+    header("location: ../signup.php?error=" . urlencode($resultData));
 }
 
 

@@ -48,7 +48,7 @@
             </form>
             <!-- Sign up  Link -->
             <div class="mt-6 text-green-500 text-center">
-                <a href="#" class="hover:underline">Sign up Here</a>
+                <a href="./signup.php" class="hover:underline">Sign up Here</a>
             </div>
         </div>
     </div>

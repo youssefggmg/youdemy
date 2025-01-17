@@ -58,6 +58,13 @@
                 <button type="submit"
                     class="bg-red-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full">Sign
                     Up</button>
+                    <?php 
+                    if (isset($_GET["error"])) {
+                        echo "<div class='bg-red-500 text-white p-4 rounded-md shadow-md mt-4'>
+                                <strong>Error:</strong>".$_GET["error"]."
+                            </div>";
+                    }
+                    ?>
             </form>
             <!-- Login Link -->
             <div class="mt-6 text-green-500 text-center">

@@ -49,7 +49,7 @@ class User
                     ':user_type' => $user_type,
                     ':account_status' => $accountStatus
                 ]);
-                return ['status' => 1, 'message' => ["userID"=>$stmt->lastInsertId(),"user_role"=>$user_type]];
+                return ['status' => 1, 'message' => ["userID"=>$this->db->lastInsertId(),"user_role"=>$user_type]];
         } catch (PDOException $e) {
             return ['status' => 0, 'message' => 'Database error: ' . $e->getMessage()];
         }
