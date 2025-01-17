@@ -43,13 +43,40 @@ class Category
             $sql = "SELECT * FROM Category";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
-            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $categories = $stmt->fetchAll();
             return ["status" => 1, "categories" => $categories];
         } catch (PDOException $e) {
             return [
                 "status" => 0,
                 "error" => "Error: " . $e->getMessage()
             ];
+        }
+    }
+    public function getCategoryCourseCounts()
+    {
+        try {
+            $sql = "
+            SELECT 
+                id AS category_id,
+                name AS category_name,
+                (
+                    SELECT COUNT(*) 
+                    FROM Course_Category 
+                    WHERE Course_Category.category_id = Category.id
+                ) AS course_count
+            FROM 
+                Category
+            ORDER BY 
+                name;
+        ";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return ["status" => 1, "categories" => $categories];
+        } catch (PDOException $e) {
+            return ["status" => 0, "error" => "Error: " . $e->getMessage()];
         }
     }
     public function assignCategories($categories, $courseId)
