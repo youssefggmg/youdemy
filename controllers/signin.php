@@ -5,9 +5,9 @@ $user = new User($pdo);
 $result = $user->logIn($_POST["email"], $_POST["password"]);
 $resultData = $result["message"];
 if ($result["status"] == 1) {
-    setcookie("userID", $resultData["userID"], time() + 86400, "/");
-    setcookie("userROLE", $resultData["user_role"], time() + 86400, "/");
-    if ($resultData["user_role"] == "Student") {
+    setcookie("userID", $resultData["id"], time() + 86400, "/");
+    setcookie("userROLE", $resultData["user_type"], time() + 86400, "/");
+    if ($resultData["user_type"] == "Student") {
         header("Location: ../user/index.php");
     } else {
         header("location: ");
