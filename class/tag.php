@@ -1,5 +1,5 @@
 <?php
-class Catigory
+class tag
 {
     private $db;
     public function createTags($tags)

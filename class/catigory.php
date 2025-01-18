@@ -59,6 +59,7 @@ class Category
             SELECT 
                 id AS category_id,
                 name AS category_name,
+                catImage AS category_image,
                 (
                     SELECT COUNT(*) 
                     FROM Course_Category 
