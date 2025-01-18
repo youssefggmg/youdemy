@@ -1,10 +1,10 @@
-<?php 
+<?php
 include "../rolleValidation/roleValidaiton.php";
 include "../instance/instace.php";
 include "../class/catigory.php";
-$roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"],"Student","../index.php");
+$roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Student", "../index.php");
 $cotigory = new Category($pdo);
-$results=$cotigory->getCategoryCourseCounts()["categories"];
+$results = $cotigory->getCategoryCourseCounts()["categories"];
 
 
 
@@ -24,7 +24,7 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -81,9 +81,8 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
     <div class="container-fluid">
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a class="d-flex align-items-center justify-content-between bg-secondary w-100 text-decoration-none" data-toggle="collapse" href="#navbar-vertical" style="height: 67px; padding: 0 30px;">
-                    
-                </a>
+                <input type="email" placeholder="Search Something..."
+                    class="w-full outline-none bg-white text-gray-600 text-sm px-4 py-3" />
             </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
@@ -108,7 +107,8 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
                             </div>
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
                         </div>
-                        <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block" href="../controllers/logout.php">Logout</a>
+                        <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block"
+                            href="../controllers/logout.php">Logout</a>
                     </div>
                 </nav>
             </div>
@@ -127,7 +127,8 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active" style="min-height: 300px;">
-                    <img class="position-relative w-100" src="img/carousel-1.jpg" style="min-height: 300px; object-fit: cover;">
+                    <img class="position-relative w-100" src="img/carousel-1.jpg"
+                        style="min-height: 300px; object-fit: cover;">
                     <div class="carousel-caption d-flex align-items-center justify-content-center">
                         <div class="p-5" style="width: 100%; max-width: 900px;">
                             <h5 class="text-white text-uppercase mb-md-3">Best Online Courses</h5>
@@ -137,7 +138,8 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
                     </div>
                 </div>
                 <div class="carousel-item" style="min-height: 300px;">
-                    <img class="position-relative w-100" src="img/carousel-2.jpg" style="min-height: 300px; object-fit: cover;">
+                    <img class="position-relative w-100" src="img/carousel-2.jpg"
+                        style="min-height: 300px; object-fit: cover;">
                     <div class="carousel-caption d-flex align-items-center justify-content-center">
                         <div class="p-5" style="width: 100%; max-width: 900px;">
                             <h5 class="text-white text-uppercase mb-md-3">Best Online Courses</h5>
@@ -147,7 +149,8 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
                     </div>
                 </div>
                 <div class="carousel-item" style="min-height: 300px;">
-                    <img class="position-relative w-100" src="img/carousel-3.jpg" style="min-height: 300px; object-fit: cover;">
+                    <img class="position-relative w-100" src="img/carousel-3.jpg"
+                        style="min-height: 300px; object-fit: cover;">
                     <div class="carousel-caption d-flex align-items-center justify-content-center">
                         <div class="p-5" style="width: 100%; max-width: 900px;">
                             <h5 class="text-white text-uppercase mb-md-3">Best Online Courses</h5>
@@ -174,7 +177,12 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
                         <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">About Us</h5>
                         <h1>Innovative Way To Learn</h1>
                     </div>
-                    <p>Aliquyam accusam clita nonumy ipsum sit sea clita ipsum clita, ipsum dolores amet voluptua duo dolores et sit ipsum rebum, sadipscing et erat eirmod diam kasd labore clita est. Diam sanctus gubergren sit rebum clita amet, sea est sea vero sed et. Sadipscing labore tempor at sit dolor clita consetetur diam. Diam ut diam tempor no et, lorem dolore invidunt no nonumy stet ea labore, dolor justo et sit gubergren diam sed sed no ipsum. Sit tempor ut nonumy elitr dolores justo aliquyam ipsum stet</p>
+                    <p>Aliquyam accusam clita nonumy ipsum sit sea clita ipsum clita, ipsum dolores amet voluptua duo
+                        dolores et sit ipsum rebum, sadipscing et erat eirmod diam kasd labore clita est. Diam sanctus
+                        gubergren sit rebum clita amet, sea est sea vero sed et. Sadipscing labore tempor at sit dolor
+                        clita consetetur diam. Diam ut diam tempor no et, lorem dolore invidunt no nonumy stet ea
+                        labore, dolor justo et sit gubergren diam sed sed no ipsum. Sit tempor ut nonumy elitr dolores
+                        justo aliquyam ipsum stet</p>
                     <a href="" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold mt-2">Learn More</a>
                 </div>
             </div>
@@ -191,14 +199,14 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
                 <h1>Explore Top Subjects</h1>
             </div>
             <div class="row">
-                <?php 
-                foreach ($results as $result ) {
+                <?php
+                foreach ($results as $result) {
                     echo "<div class='col-lg-3 col-md-6 mb-4'>
                             <div class='cat-item position-relative overflow-hidden rounded mb-2'>
-                                <img class='img-fluid' src='".$result["category_image"]."' alt='categoryImage'>
+                                <img class='img-fluid' src='" . $result["category_image"] . "' alt='categoryImage'>
                                 <a class='cat-overlay text-white text-decoration-none' href=''>
-                                    <h4 class='text-white font-weight-medium'>".$result["category_name"]."</h4>
-                                    <span>".$result["course_count"]." Courses</span>
+                                    <h4 class='text-white font-weight-medium'>" . $result["category_name"] . "</h4>
+                                    <span>" . $result["course_count"] . " Courses</span>
                                 </a>
                             </div>
                         </div>";
@@ -230,9 +238,12 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
                         <div class="team-img position-relative">
                             <img class="img-fluid" src="img/team-1.jpg" alt="">
                             <div class="team-social">
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-twitter"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
                         <div class="bg-secondary p-4">
@@ -246,9 +257,12 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
                         <div class="team-img position-relative">
                             <img class="img-fluid" src="img/team-2.jpg" alt="">
                             <div class="team-social">
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-twitter"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
                         <div class="bg-secondary p-4">
@@ -262,9 +276,12 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
                         <div class="team-img position-relative">
                             <img class="img-fluid" src="img/team-3.jpg" alt="">
                             <div class="team-social">
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-twitter"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
                         <div class="bg-secondary p-4">
@@ -278,9 +295,12 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
                         <div class="team-img position-relative">
                             <img class="img-fluid" src="img/team-4.jpg" alt="">
                             <div class="team-social">
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-twitter"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-light btn-square mx-1" href="#"><i
+                                        class="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
                         <div class="bg-secondary p-4">
@@ -306,8 +326,10 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
                         <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
                         <div class="d-flex justify-content-start mt-4">
                             <a class="btn btn-outline-light btn-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-light btn-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-square mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-outline-light btn-square mr-2" href="#"><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-square mr-2" href="#"><i
+                                    class="fab fa-linkedin-in"></i></a>
                             <a class="btn btn-outline-light btn-square" href="#"><i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
@@ -325,10 +347,12 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
             </div>
             <div class="col-lg-5 col-md-12 mb-5">
                 <h5 class="text-primary text-uppercase mb-4" style="letter-spacing: 5px;">Newsletter</h5>
-                <p>Rebum labore lorem dolores kasd est, et ipsum amet et at kasd, ipsum sea tempor magna tempor. Accu kasd sed ea duo ipsum. Dolor duo eirmod sea justo no lorem est diam</p>
+                <p>Rebum labore lorem dolores kasd est, et ipsum amet et at kasd, ipsum sea tempor magna tempor. Accu
+                    kasd sed ea duo ipsum. Dolor duo eirmod sea justo no lorem est diam</p>
                 <div class="w-100">
                     <div class="input-group">
-                        <input type="text" class="form-control border-light" style="padding: 30px;" placeholder="Your Email Address">
+                        <input type="text" class="form-control border-light" style="padding: 30px;"
+                            placeholder="Your Email Address">
                         <div class="input-group-append">
                             <button class="btn btn-primary px-4">Sign Up</button>
                         </div>
@@ -337,10 +361,12 @@ $results=$cotigory->getCategoryCourseCounts()["categories"];
             </div>
         </div>
     </div>
-    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="border-color: rgba(256, 256, 256, .1) !important;">
+    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
+        style="border-color: rgba(256, 256, 256, .1) !important;">
         <div class="row">
             <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-                <p class="m-0 text-white">&copy; <a href="#">Domain Name</a>. All Rights Reserved. Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+                <p class="m-0 text-white">&copy; <a href="#">Domain Name</a>. All Rights Reserved. Designed by <a
+                        href="https://htmlcodex.com">HTML Codex</a>
                 </p>
             </div>
             <div class="col-lg-6 text-center text-md-right">
