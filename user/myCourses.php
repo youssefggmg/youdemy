@@ -85,6 +85,10 @@ if ($myCourses["status"] == 1) {
                 <div class="hidden lg:block w-1/4 py-4">
                     <input type="email" placeholder="Search Something..."
                         class="w-full px-4 py-3 border rounded focus:outline-none focus:border-blue-500 text-sm text-gray-600">
+                    <div id="searchResults"
+                        style="position: absolute; z-index: 10; background: white; border: 1px solid #ddd; width: 100%; max-height: 300px; overflow-y: auto; display: none;">
+                        <!-- Search results will be appended here -->
+                    </div>
                 </div>
 
                 <!-- Navigation -->
@@ -156,14 +160,14 @@ if ($myCourses["status"] == 1) {
                     </div>
                     <div class="p-6">
                         <a href="#" class="block text-xl font-bold text-gray-800 hover:text-blue-600 mb-3">
-                            '.$result["title"].'
+                            ' . $result["title"] . '
                         </a>
-                        <p class="'.$result["description"].'.</p>
+                        <p class="' . $result["description"] . '.</p>
                         <div class="border-t pt-4">
                             <div class="flex justify-between items-center">
                                 <button
                                     class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-200">
-                                    <a href="./single.php?courseID='.$result["id"].'">view Course</a>
+                                    <a href="./single.php?courseID=' . $result["id"] . '">view Course</a>
                                 </button>
                             </div>
                         </div>
@@ -248,6 +252,7 @@ if ($myCourses["status"] == 1) {
         </div>
     </div>
     <!-- Footer End -->
+    <script src="js/special.js"></script>
 </body>
 
 </html>

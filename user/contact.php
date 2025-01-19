@@ -70,8 +70,12 @@
     <div class="container-fluid">
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <input type="email" placeholder="Search Something..."
+                <input type="text" placeholder="Search Something..." id="searchInput"
                     class="w-full outline-none bg-white text-gray-600 text-sm px-4 py-3" />
+                <div id="searchResults"
+                    style="position: absolute; z-index: 10; background: white; border: 1px solid #ddd; width: 100%; max-height: 300px; overflow-y: auto; display: none;">
+                    <!-- Search results will be appended here -->
+                </div>
             </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
@@ -242,6 +246,7 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="js/special.js"></script>
 </body>
 
 </html>

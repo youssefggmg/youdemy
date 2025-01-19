@@ -110,29 +110,6 @@ class Cours
             return ["status" => 0, "error" => "Error: " . $e->getMessage()];
         }
     }
-    public function listCoursesByTag($tagName)
-    {
-        try {
-            $query = "SELECT c.* 
-                      FROM Course c
-                      JOIN Course_Tag ct ON c.id = ct.course_id
-                      JOIN Tag t ON ct.tag_id = t.id
-                      WHERE t.name = :tagName";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':tagName', $tagName, );
-            $stmt->execute();
-
-            $courses = $stmt->fetchAll();
-
-            if ($courses) {
-                return ["status" => 1, "courses" => $courses];
-            } else {
-                return ["status" => 0, "message" => "No courses found with the given tag."];
-            }
-        } catch (PDOException $e) {
-            return ["status" => 0, "error" => "Error: " . $e->getMessage()];
-        }
-    }
 
     public function listCoursesByCategory($categoryName)
     {
@@ -192,9 +169,9 @@ class Cours
             $query = "SELECT * FROM Course WHERE title LIKE :title";
             $stmt = $this->db->prepare($query);
             $searchTerm = '%' . $title . '%';
-            $stmt->bindParam(':title', $searchTerm, PDO::PARAM_STR);
+            $stmt->bindParam(':title', $searchTerm, );
             $stmt->execute();
-            $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $courses = $stmt->fetchAll();
 
             return json_encode([
                 'status' => 1,
