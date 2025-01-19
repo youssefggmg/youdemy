@@ -24,15 +24,15 @@ class Student extends User
         }
     }
 
-    public function viewMyCourses(): array
+    public function viewMyCourses($id): array
     {
         try {
-            $query = "SELECT c.id, c.title, c.description 
-                        FROM courses c 
-                        JOIN enrollments e ON c.id = e.course_id 
+            $query = "SELECT c.id, c.title, c.description, c.content_type
+                        FROM Course c 
+                        JOIN Enrollment e ON c.id = e.course_id 
                         WHERE e.student_id = :student_id";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([':student_id' => $this->id]);
+            $stmt->execute([':student_id' => $id]);
             $courses = $stmt->fetchAll();
             return ['status' => 1, 'data' => $courses];
         } catch (PDOException $e) {
