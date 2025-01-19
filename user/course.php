@@ -105,13 +105,7 @@ if ($allCourses['status'] == 1) {
                             <a href="about.php" class="nav-item nav-link">About</a>
                             <a href="course.php" class="nav-item nav-link">Courses</a>
                             <a href="teacher.php" class="nav-item nav-link">Teachers</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Blog</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="blog.php" class="dropdown-item">Blog List</a>
-                                    <a href="single.php" class="dropdown-item">Blog Detail</a>
-                                </div>
-                            </div>
+                            <a href="myCourses.php" class="nav-item nav-link">MyCourse's</a>
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                         <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block"
@@ -198,7 +192,7 @@ if ($allCourses['status'] == 1) {
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>' . $Course["content_type"] . '</small>
                                         </h6>
-                                        <button class="btn btn-primary"><a href="../controllers/enroll.php?cousID='.$Course["id"].'&userID='.$_COOKIE["userROLE"].'"></a></button>
+                                        <button class="btn btn-primary"><a href="../controllers/enroll.php?cousID=' . $Course["id"] . '&userID=' . $_COOKIE["userROLE"] . '"></a></button>
                                     </div>
                                 </div>
                             </div>

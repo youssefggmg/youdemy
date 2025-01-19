@@ -87,13 +87,7 @@
                             <a href="about.php" class="nav-item nav-link">About</a>
                             <a href="course.php" class="nav-item nav-link">Courses</a>
                             <a href="teacher.php" class="nav-item nav-link">Teachers</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Blog</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="blog.php" class="dropdown-item">Blog List</a>
-                                    <a href="single.php" class="dropdown-item">Blog Detail</a>
-                                </div>
-                            </div>
+                            <a href="myCourses.php" class="nav-item nav-link">MyCourse's</a>
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                         <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block"
