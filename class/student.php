@@ -8,13 +8,13 @@ class Student extends User
     }
 
 
-    public function enrollInCourse(int $courseId): array
+    public function enrollInCourse($courseId ,$student_id): array
     {
         try {
             $query = "INSERT INTO enrollments (student_id, course_id) VALUES (:student_id, :course_id)";
             $stmt = $this->db->prepare($query);
             $stmt->execute([
-                ':student_id' => $this->id,
+                ':student_id' => $student_id,
                 ':course_id' => $courseId,
             ]);
 
