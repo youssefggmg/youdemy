@@ -2,9 +2,15 @@
 include "../rolleValidation/roleValidaiton.php";
 include "../instance/instace.php";
 include "../class/catigory.php";
+include "../helper/isAccountvalidated.php";
 $roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Student", "../index.php");
 $cotigory = new Category($pdo);
 $results = $cotigory->getCategoryCourseCounts()["categories"];
+$validateStatus = new IsAccountvalidated($pdo);
+$accountstatus=$validateStatus->getAccountStatus();
+if ($accountstatus=="Inactive") {
+    header("Location: inactive.php");
+}
 
 
 

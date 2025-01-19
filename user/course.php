@@ -3,6 +3,7 @@ include "../rolleValidation/roleValidaiton.php";
 include "../instance/instace.php";
 include "../class/catigory.php";
 include "../class/cours.php";
+include "../helper/isAccountvalidated.php";
 $roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Student", "../index.php");
 $cotigory = new Category($pdo);
 $cours = new Cours($pdo);
@@ -10,6 +11,11 @@ $results = $cotigory->getCategoryCourseCounts()["categories"];
 $allCourses = $cours->listApprovedCourses();
 if ($allCourses['status'] == 1) {
     $allCourses = $allCourses['courses'];
+}
+$validateStatus = new IsAccountvalidated($pdo);
+$accountstatus=$validateStatus->getAccountStatus();
+if ($accountstatus=="Inactive") {
+    header("Location: inactive.php");
 }
 
 

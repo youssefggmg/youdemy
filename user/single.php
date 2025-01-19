@@ -2,6 +2,7 @@
 include "../rolleValidation/roleValidaiton.php";
 include "../instance/instace.php";
 include "../class/cours.php";
+include "../helper/isAccountvalidated.php";
 $roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Student", "../index.php");
 $cours= new Cours($pdo);
 $coursInfo = $cours->getCourseDetails($_GET["courseID"]);
@@ -11,6 +12,11 @@ if ($coursInfo['status']==1) {
 }
 elseif($coursInfo['status']==0){
     echo $coursInfo['message'];
+}
+$validateStatus = new IsAccountvalidated($pdo);
+$accountstatus=$validateStatus->getAccountStatus();
+if ($accountstatus=="Inactive") {
+    header("Location: inactive.php");
 }
 ?>
 <!DOCTYPE html>
