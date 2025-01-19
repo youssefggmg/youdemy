@@ -155,15 +155,6 @@ if ($allCourses['status'] == 1) {
                         </div>";
                 }
                 ?>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="cat-item position-relative overflow-hidden rounded mb-2">
-                        <img class="img-fluid" src="img/cat-1.jpg" alt="">
-                        <a class="cat-overlay text-white text-decoration-none" href="">
-                            <h4 class="text-white font-weight-medium">Web Design</h4>
-                            <span>100 Courses</span>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -201,22 +192,6 @@ if ($allCourses['status'] == 1) {
                     }
                 }
                 ?>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="rounded overflow-hidden mb-2">
-                        <!-- <img class="img-fluid" src="img/course-1.jpg" alt=""> -->
-                        <div class="bg-secondary p-4">
-                            <a class="h5" href="">$Course["title"]</a>
-                            <div class="border-top mt-4 pt-4">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="m-0"><i
-                                            class="fa fa-star text-primary mr-2"></i>$Course["content_type"]</small>
-                                    </h6>
-                                    <button class="btn btn-primary">Enroll</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

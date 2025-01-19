@@ -182,8 +182,29 @@ class Cours
         } catch (PDOException $e) {
             return [
                 "status" => 0,
-                "error" => "Error: " . $e->getMessage()
+                "message" => "Error: " . $e->getMessage()
             ];
+        }
+    }
+    public function searchCoursesByTitle($title)
+    {
+        try {
+            $query = "SELECT * FROM Course WHERE title LIKE :title";
+            $stmt = $this->db->prepare($query);
+            $searchTerm = '%' . $title . '%';
+            $stmt->bindParam(':title', $searchTerm, PDO::PARAM_STR);
+            $stmt->execute();
+            $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return json_encode([
+                'status' => 1,
+                'courses' => $courses
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                'status' => 0,
+                'error' => 'Error: ' . $e->getMessage()
+            ]);
         }
     }
 }
