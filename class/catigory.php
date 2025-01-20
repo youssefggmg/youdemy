@@ -80,17 +80,15 @@ class Category
             return ["status" => 0, "error" => "Error: " . $e->getMessage()];
         }
     }
-    public function assignCategories($categories, $courseId)
+    public function assignCategories($categoryId, $courseId)
     {
         try {
             $sql = "INSERT INTO Course_Category (course_id, category_id) VALUES (:course_id, :category_id)";
             $stmt = $this->db->prepare($sql);
-            foreach ($categories as $categoryId) {
                 $stmt->execute([
                     'course_id' => $courseId,
                     'category_id' => $categoryId
                 ]);
-            }
             return ["status" => 1, "message" => "Categories assigned to the course successfully."];
         } catch (PDOException $e) {
             return [

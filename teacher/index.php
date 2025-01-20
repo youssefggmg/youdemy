@@ -122,7 +122,7 @@ if ($result['status'] == 1) {
                         <div class="navbar-nav py-0">
                             <a href="index.php" class="nav-item nav-link active">Home</a>
                             <a href="about.php" class="nav-item nav-link">About</a>
-                            <a href="course.php" class="nav-item nav-link">Courses</a>
+                            <a href="createCourse.php" class="nav-item nav-link">Add Cours</a>
                             <a href="teacher.php" class="nav-item nav-link">Teachers</a>
                             <a href="myCourses.php" class="nav-item nav-link">MyCourse's</a>
                             <a href="contact.php" class="nav-item nav-link">Contact</a>

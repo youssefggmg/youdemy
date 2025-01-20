@@ -2,6 +2,10 @@
 class tag
 {
     private $db;
+    public function __construct($db)
+    {
+        $this->db = $db;
+    }
     public function createTags($tags)
     {
         try {

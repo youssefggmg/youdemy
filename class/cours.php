@@ -16,32 +16,57 @@ class Cours
     }
 
     // Add a course
-    public function addCours($title, $description, $content, $video, $status, $contentType)
-    {
-        try {
-            $query = "INSERT INTO Course (title, description, content, video, status, content_type) 
-                        VALUES (:title, :description, :content, :video, :status, :contentType)";
-            $stmt = $this->db->prepare($query);
-
-            $stmt->execute([
-                ':title' => $title,
-                ':description' => $description,
-                ':content' => $content,
-                ':video' => $video,
-                ':status' => $status,
-                ':contentType' => $contentType,
-            ]);
-
-            return [
-                "status" => 1,
-                "message" => "Course added successfully.",
-                "course_id" => $this->db->lastInsertId()
-            ];
-        } catch (PDOException $e) {
-            return ["status" => 0, "error" => "Error: " . $e->getMessage()];
+    public function addCours($title, $description, $content = "", $video = "", $contentType, $teacherID)
+{
+    try {
+        // Validate inputs
+        if (empty($title) || strlen($title) > 255) {
+            return ["status" => 0, "message" => "Title is required and must not exceed 255 characters."];
         }
-    }
 
+        if (empty($description)) {
+            return ["status" => 0, "message" => "Description is required."];
+        }
+
+        if ($contentType !== "Text" && $contentType !== "Video") {
+            return ["status" => 0, "message" => "Content type must be either 'Text' or 'Video'."];
+        }
+
+        if ($contentType === "Text" && empty($content)) {
+            return ["status" => 0, "message" => "Content is required for text-based courses."];
+        }
+
+        if ($contentType === "Video" && empty($video)) {
+            return ["status" => 0, "message" => "Video URL is required for video-based courses."];
+        }
+
+        if (!filter_var($video, FILTER_VALIDATE_URL) && $contentType === "Video") {
+            return ["status" => 0, "message" => "Invalid video URL format."];
+        }
+
+        // Prepare and execute the SQL query
+        $query = "INSERT INTO Course (title, description, content, vedio_url, content_type, teacher_ID) 
+                    VALUES (:title, :description, :content, :video, :contentType, :teacher_ID)";
+        $stmt = $this->db->prepare($query);
+
+        $stmt->execute([
+            ':title' => $title,
+            ':description' => $description,
+            ':content' => $content,
+            ':video' => $video,
+            ':contentType' => $contentType,
+            ':teacher_ID' => $teacherID
+        ]);
+
+        return [
+            "status" => 1,
+            "message" => "Course added successfully.",
+            "course_id" => $this->db->lastInsertId()
+        ];
+    } catch (PDOException $e) {
+        return ["status" => 0, "message" => "Error: " . $e->getMessage()];
+    }
+}
     // Update a course
     public function updateCourse($id, $title, $description, $content, $video, $status, $contentType)
     {
