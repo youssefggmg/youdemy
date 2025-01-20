@@ -19,7 +19,7 @@ if ($accountstatus == "Inactive") {
 $catigory = new Category($pdo);
 $tag = new tag($pdo);
 $cours = new Cours($pdo);
-$coursinfo = $cours->getCourseDetails($_GET["CoursID"])['course'];
+$coursinfo = $cours->getCourseDetails($_GET["courseID"])['course'];
 $listTags = $tag->listTags();
 $catigorylist = $catigory->listCategories();
 if ($catigorylist['status'] == 1) {
