@@ -1,7 +1,6 @@
 <?php
 include "rolleValidation/roleValidaiton.php";
 $roleValidaiton = new roleValidaiton();
-echo $_COOKIE["userROLE"];
 if (isset($_COOKIE["userROLE"])) {
     $userRole = $_COOKIE["userROLE"];
     if ($userRole == "Student") {

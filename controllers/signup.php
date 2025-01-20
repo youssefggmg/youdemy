@@ -10,7 +10,7 @@ if ($result["status"]==1) {
     if ($resultData["user_role"]=="Student") {
         header("Location: ../user/index.php");
     }else {
-        header("location: ");
+        header("location: ../teacher ");
     }
 }else {
     header("location: ../signup.php?error=" . urlencode($resultData));

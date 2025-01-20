@@ -22,7 +22,7 @@ class Teacher extends User
                   JOIN Course c ON e.course_id = c.id 
                   WHERE c.teacher_id = :teacher_id";
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':teacher_id', $id, PDO::PARAM_INT);
+            $stmt->bindParam(':teacher_id', $id);
             $stmt->execute();
             $totalEnrollments = $stmt->fetch()['totalEnrollments'];
 
@@ -31,7 +31,7 @@ class Teacher extends User
                   JOIN Course c ON e.course_id = c.id 
                   WHERE c.teacher_id = :teacher_id AND e.status = 'Completed'";
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':teacher_id', $id, PDO::PARAM_INT);
+            $stmt->bindParam(':teacher_id', $id);
             $stmt->execute();
             $completedEnrollments = $stmt->fetch()['completedEnrollments'];
             $this->CourseStatistics=[
@@ -50,18 +50,26 @@ class Teacher extends User
             ];
         }
     }
-    public function getAccountStatus($id){
+    public function getCoursesByTeacherId($teacherId)
+    {
         try {
-            $this->id=$id;
-            $query = "SELECT account_status FROM User WHERE id = :id";
+            $query = "SELECT * FROM Course WHERE teacher_ID = :teacher_id";
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->bindParam(':teacher_id', $teacherId, PDO::PARAM_INT);
             $stmt->execute();
-            $this->isValidate = $stmt->fetch();
-            return [
-                "status" => 1,
-                "result" => $this->isValidate
-            ];
+            $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($courses) {
+                return [
+                    "status" => 1,
+                    "courses" => $courses
+                ];
+            } else {
+                return [
+                    "status" => 0,
+                    "message" => "No courses found for the given teacher ID."
+                ];
+            }
         } catch (PDOException $e) {
             return [
                 'status' => 0,

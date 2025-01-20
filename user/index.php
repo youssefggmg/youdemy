@@ -7,6 +7,7 @@ $roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Student", "../index.
 $cotigory = new Category($pdo);
 $results = $cotigory->getCategoryCourseCounts()["categories"];
 $validateStatus = new IsAccountvalidated($pdo);
+$validateStatus->validateAccount($_COOKIE["userID"]);
 $accountstatus=$validateStatus->getAccountStatus();
 if ($accountstatus=="Inactive") {
     header("Location: inactive.php");

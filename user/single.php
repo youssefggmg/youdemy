@@ -14,6 +14,7 @@ elseif($coursInfo['status']==0){
     echo $coursInfo['message'];
 }
 $validateStatus = new IsAccountvalidated($pdo);
+$validateStatus->validateAccount($_COOKIE["userID"]);
 $accountstatus=$validateStatus->getAccountStatus();
 if ($accountstatus=="Inactive") {
     header("Location: inactive.php");

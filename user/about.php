@@ -5,6 +5,7 @@ include "../helper/isAccountvalidated.php";
 $roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Student", "../index.php");
 $cours= new Cours($pdo);
 $validateStatus = new IsAccountvalidated($pdo);
+$validateStatus->validateAccount($_COOKIE["userID"]);
 $accountstatus=$validateStatus->getAccountStatus();
 if ($accountstatus=="Inactive") {
     header("Location: inactive.php");

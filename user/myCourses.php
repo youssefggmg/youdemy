@@ -10,6 +10,7 @@ if ($myCourses["status"] == 1) {
     $results = $myCourses["data"];
 }
 $validateStatus = new IsAccountvalidated($pdo);
+$validateStatus->validateAccount($_COOKIE["userID"]);
 $accountstatus=$validateStatus->getAccountStatus();
 if ($accountstatus=="Inactive") {
     header("Location: inactive.php");
