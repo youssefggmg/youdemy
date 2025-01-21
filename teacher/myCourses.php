@@ -3,9 +3,11 @@ include "../rolleValidation/roleValidaiton.php";
 include "../instance/instace.php";
 include "../class/Teacher.php";
 include "../helper/isAccountvalidated.php";
-$roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Student", "../index.php");
+$roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Teacher", "../index.php");
 $student = new Teacher($pdo);
-$myCourses = $student->getCoursesByTeacherId($_COOKIE["userROLE"]);
+$myCourses = $student->getCoursesByTeacherId($_COOKIE["userID"]);
+
+
 if ($myCourses["status"] == 1) {
     $results = $myCourses["data"];
 }
@@ -169,7 +171,7 @@ if ($accountstatus == "Inactive") {
                         <a href="#" class="block text-xl font-bold text-gray-800 hover:text-blue-600 mb-3">
                             ' . $result["title"] . '
                         </a>
-                        <p class="' . $result["description"] . '"></p>
+                        <p class="">' . $result["description"] . '</p>
                         <div class="border-t pt-4">
                             <div class="flex justify-between items-center space-x-4">
                                 <button

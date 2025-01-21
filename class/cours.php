@@ -10,9 +10,26 @@ class Cours
     private $contentType;
     private $db;
 
-    public function __construct($db)
-    {
+    public function __construct($id = "",$title = "",$description = "",$content = "",$video = "",$status = "",$contentType = ""
+    ) {
+        $this->id = $id;
+        $this->title = $title;
+        $this->description = $description;
+        $this->content = $content;
+        $this->video = $video;
+        $this->status = $status;
+        $this->contentType = $contentType;
+    }
+    public function getConnection($db){
         $this->db = $db;
+    }
+    public function __get($name)
+    {
+        return $this->$name;
+    }
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
     }
 
     // Add a course
@@ -145,11 +162,16 @@ class Cours
             $query = "SELECT * FROM Course WHERE status = 'approved'";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
-
-            $courses = $stmt->fetchAll();
-
-            if ($courses) {
-                return ["status" => 1, "courses" => $courses];
+    
+            $courses = $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative arrays
+            $theCourses = [];
+    
+            foreach ($courses as $course) {
+                $theCourses[] = new Cours($course["id"] ?? "",$course["title"] ?? "",$course["description"] ?? "",$course["content"] ?? "",$course["vedio_url"] ?? "", $course["status"] ?? "",$course["content_type"] ?? "");
+            }
+    
+            if (!empty($theCourses)) {
+                return ["status" => 1, "courses" => $theCourses];
             } else {
                 return ["status" => 0, "message" => "No approved courses found."];
             }

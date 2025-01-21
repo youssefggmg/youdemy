@@ -13,7 +13,7 @@ class Teacher extends User
         try {
             $query = "SELECT COUNT(*) AS totalCourses FROM Course WHERE teacher_id = :teacher_id";
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':teacher_id', $id, PDO::PARAM_INT);
+            $stmt->bindParam(':teacher_id', $id);
             $stmt->execute();
             $totalCourses = $stmt->fetch()['totalCourses'];
 
@@ -34,14 +34,14 @@ class Teacher extends User
             $stmt->bindParam(':teacher_id', $id);
             $stmt->execute();
             $completedEnrollments = $stmt->fetch()['completedEnrollments'];
-            $this->CourseStatistics=[
+            $this->CourseStatistics = [
                 'totalCourses' => $totalCourses,
                 'totalEnrollments' => $totalEnrollments,
                 'completedEnrollments' => $completedEnrollments
             ];
             return [
                 "status" => 1,
-                "result" =>$this->CourseStatistics
+                "result" => $this->CourseStatistics
             ];
         } catch (PDOException $e) {
             return [
@@ -57,19 +57,11 @@ class Teacher extends User
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':teacher_id', $teacherId, PDO::PARAM_INT);
             $stmt->execute();
-            $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if ($courses) {
-                return [
-                    "status" => 1,
-                    "courses" => $courses
-                ];
-            } else {
-                return [
-                    "status" => 0,
-                    "message" => "No courses found for the given teacher ID."
-                ];
-            }
+            $courses = $stmt->fetchAll();
+            return [
+                "status" => 1,
+                "data" => $courses
+            ];
         } catch (PDOException $e) {
             return [
                 'status' => 0,

@@ -4,7 +4,8 @@ include "../instance/instace.php";
 include "../class/cours.php";
 include "../helper/isAccountvalidated.php";
 $roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Student", "../index.php");
-$cours= new Cours($pdo);
+$cours = new Cours();
+$cours->getConnection($pdo);
 $coursInfo = $cours->getCourseDetails($_GET["courseID"]);
 
 if ($coursInfo['status']==1) {

@@ -1,7 +1,8 @@
 <?php 
 include "../../class/cours.php";
 include "../../instance/instace.php";
-$cours = new Cours($pdo);
+$cours = new Cours();
+$cours->getConnection($pdo);
 $category= new Category($pdo);
 $title = $_POST['title'];
 $description = $_POST['description'];

@@ -18,7 +18,8 @@ if ($accountstatus == "Inactive") {
 }
 $catigory = new Category($pdo);
 $tag = new tag($pdo);
-$cours = new Cours($pdo);
+$cours = new Cours();
+$cours->getConnection($pdo);
 $coursinfo = $cours->getCourseDetails($_GET["courseID"])['course'];
 $listTags = $tag->listTags();
 $catigorylist = $catigory->listCategories();
@@ -28,7 +29,6 @@ if ($catigorylist['status'] == 1) {
 if ($listTags['status'] == 1) {
     $listTags = $listTags['message'];
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,8 +41,8 @@ if ($listTags['status'] == 1) {
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const contentTypeRadios = document.querySelectorAll('input[name="content_type"]');
-            const videoUrlField = document.getElementById('videoUrlField');
-            const textContentField = document.getElementById('textContentField');
+            const videoUrlField = document.getElementById('video_url');
+            const textContentField = document.getElementById('content');
 
             // Hide both initially
             videoUrlField.style.display = 'none';
@@ -59,12 +59,22 @@ if ($listTags['status'] == 1) {
                     }
                 });
             });
+
+            // Show initial content field based on saved content type
+            const initialContentType = '<?php echo $coursinfo['content_type']; ?>';
+            if (initialContentType === 'Video') {
+                videoUrlField.style.display = 'block';
+                textContentField.style.display = 'none';
+            } else if (initialContentType === 'Text') {
+                videoUrlField.style.display = 'none';
+                textContentField.style.display = 'block';
+            }
         });
     </script>
 </head>
 
 <body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen flex flex-col items-center justify-center">
-    <div class="container-fluid mx-auto justify-center  w-full">
+    <div class="container-fluid mx-auto justify-center w-full">
         <div class="flex flex-wrap border-t px-4 xl:px-5">
             <div class="w-full lg:w-1/4 hidden lg:block">
                 <input type="text" placeholder="Search Something..." id="searchInput"
@@ -109,67 +119,52 @@ if ($listTags['status'] == 1) {
             <p class="text-sm mt-2">Fill in the details below to add a new course to the platform.</p>
         </div>
         <div class="p-8">
-            <form action="../controllers/teacher/createCourse.php" method="POST" class="space-y-6">
+            <form action="../controllers/teacher/updateCours.php" method="POST" class="space-y-6">
                 <!-- Title -->
                 <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($coursinfo['title']); ?>"
                     class="block w-full border border-gray-300 rounded-md px-4 py-2 text-sm shadow focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
 
+                <!-- Description -->
                 <textarea id="description" name="description" rows="4"
                     class="block w-full border border-gray-300 rounded-md px-4 py-2 text-sm shadow focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"><?php echo htmlspecialchars($coursinfo['description']); ?></textarea>
 
-                <!-- For content type radio buttons -->
-                <input type="radio" name="content_type" value="Video" <?php echo ($coursinfo['content_type'] === 'Video') ? 'checked' : ''; ?> class="form-radio h-4 w-4 text-blue-600 focus:ring-blue-500">
-                <input type="radio" name="content_type" value="Text" <?php echo ($coursinfo['content_type'] === 'Text') ? 'checked' : ''; ?> class="form-radio h-4 w-4 text-blue-600 focus:ring-blue-500">
+                <!-- Content Type: Video or Text -->
+                <div class="space-x-4">
+                    <label>
+                        <input type="radio" name="content_type" value="Video" <?php echo ($coursinfo['content_type'] === 'Video') ? 'checked' : ''; ?>
+                            class="form-radio h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        Video
+                    </label>
+                    <label>
+                        <input type="radio" name="content_type" value="Text" <?php echo ($coursinfo['content_type'] === 'Text') ? 'checked' : ''; ?>
+                            class="form-radio h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        Text
+                    </label>
+                </div>
 
-                <!-- For video URL or text content -->
-                <input type="url" id="video_url" name="video_url"
-                    value="<?php echo ($coursinfo['content_type'] === 'Video') ? htmlspecialchars($coursinfo['content']) : ''; ?>"
-                    class="block w-full border border-gray-300 rounded-md px-4 py-2 text-sm shadow focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
+                <!-- Video URL or Text Content -->
+                <div class="space-y-4">
+                    <input type="url" id="video_url" name="video_url"
+                        value="<?php echo ($coursinfo['content_type'] === 'Video') ? htmlspecialchars($coursinfo['content']) : ''; ?>"
+                        class="block w-full border border-gray-300 rounded-md px-4 py-2 text-sm shadow focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                        placeholder="Enter Video URL" <?php echo ($coursinfo['content_type'] !== 'Video') ? 'disabled' : ''; ?>>
 
-                <textarea id="content" name="content" rows="4"
-                    class="block w-full border border-gray-300 rounded-md px-4 py-2 text-sm shadow focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"><?php echo ($coursinfo['content_type'] === 'Text') ? htmlspecialchars($coursinfo['content']) : ''; ?></textarea>
-                <!-- Add a hidden course ID field -->
-                <input type="hidden" name="course_id" value="<?php echo $_GET['CoursID']; ?>">
+                    <textarea id="content" name="content" rows="4"
+                        class="block w-full border border-gray-300 rounded-md px-4 py-2 text-sm shadow focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                        placeholder="Enter Text Content" <?php echo ($coursinfo['content_type'] !== 'Text') ? 'disabled' : ''; ?>><?php echo ($coursinfo['content_type'] === 'Text') ? htmlspecialchars($coursinfo['content']) : ''; ?></textarea>
+                </div>
 
-                <!-- Update button text -->
+                <!-- Hidden course ID -->
+                <input type="hidden" name="course_id" value="<?php echo $_GET['courseID']; ?>">
+
+                <!-- Update button -->
                 <button type="submit"
                     class="bg-blue-600 text-white font-medium py-3 px-8 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition-all duration-300 shadow-lg transform hover:scale-105">
                     Update Course
                 </button>
+            </form>
         </div>
-        </form>
-    </div>
+
     </div>
 </body>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const contentTypeRadios = document.querySelectorAll('input[name="content_type"]');
-        const videoUrlField = document.getElementById('videoUrlField');
-        const textContentField = document.getElementById('textContentField');
-
-        // Show initial content field based on saved content type
-        const initialContentType = '<?php echo $coursinfo['content_type']; ?>';
-        if (initialContentType === 'Video') {
-            videoUrlField.style.display = 'block';
-            textContentField.style.display = 'none';
-        } else if (initialContentType === 'Text') {
-            videoUrlField.style.display = 'none';
-            textContentField.style.display = 'block';
-        }
-
-        // Handle changes
-        contentTypeRadios.forEach(radio => {
-            radio.addEventListener('change', () => {
-                if (radio.value === 'Video') {
-                    videoUrlField.style.display = 'block';
-                    textContentField.style.display = 'none';
-                } else if (radio.value === 'Text') {
-                    videoUrlField.style.display = 'none';
-                    textContentField.style.display = 'block';
-                }
-            });
-        });
-    });
-</script>
-
 </html>

@@ -6,6 +6,12 @@ class Student extends User
     {
         parent::__construct($db); 
     }
+    public function __get($name){
+            return $this->$name;
+    }
+    public function __set($name, $value){
+        $this->$name = $value;
+    }
 
 
     public function enrollInCourse($courseId ,$student_id): array

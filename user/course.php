@@ -6,7 +6,8 @@ include "../class/cours.php";
 include "../helper/isAccountvalidated.php";
 $roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Student", "../index.php");
 $cotigory = new Category($pdo);
-$cours = new Cours($pdo);
+$cours = new Cours();
+$cours->getConnection($pdo);
 $results = $cotigory->getCategoryCourseCounts()["categories"];
 $allCourses = $cours->listApprovedCourses();
 if ($allCourses['status'] == 1) {
@@ -14,8 +15,8 @@ if ($allCourses['status'] == 1) {
 }
 $validateStatus = new IsAccountvalidated($pdo);
 $validateStatus->validateAccount($_COOKIE["userID"]);
-$accountstatus=$validateStatus->getAccountStatus();
-if ($accountstatus=="Inactive") {
+$accountstatus = $validateStatus->getAccountStatus();
+if ($accountstatus == "Inactive") {
     header("Location: inactive.php");
 }
 
@@ -184,22 +185,25 @@ if ($accountstatus=="Inactive") {
                 if ($allCourses["status"] == 0) {
                     echo $allCourses["message"];
                 } else {
-                    foreach ($allCourses as $Course) {
+                    foreach ($allCourses["courses"] as $Course) {
                         echo '<div class="col-lg-4 col-md-6 mb-4">
-                        <div class="rounded overflow-hidden mb-2">
-                            <img class="img-fluid" src="img/course-1.jpg" alt="">
-                            <div class="bg-secondary p-4">
-                                <a class="h5" href="">' . $Course["title"] . '</a>
-                                <div class="border-top mt-4 pt-4">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="m-0"><i class="fa fa-star text-primary mr-2"></i>' . $Course["content_type"] . '</small>
-                                        </h6>
-                                        <button class="btn btn-primary"><a href="../controllers/enroll.php?cousID=' . $Course["id"] . '&userID=' . $_COOKIE["userROLE"] . '"></a></button>
+                            <div class="rounded overflow-hidden mb-2">
+                                <img class="img-fluid" src="img/course-1.jpg" alt="Course Image">
+                                <div class="bg-secondary p-4">
+                                    <a class="h5" href="#">' . htmlspecialchars($Course->__get('title')) . '</a>
+                                    <div class="border-top mt-4 pt-4">
+                                        <div class="d-flex justify-content-between">
+                                            <h6 class="m-0">
+                                                <i class="fa fa-star text-primary mr-2"></i>' . htmlspecialchars($Course->__get('contentType')) . '
+                                            </h6>
+                                            <button class="btn btn-primary">
+                                                <a href="../controllers/enroll.php?cousID=' . urlencode($Course->__get('id')) . '&userID=' . urlencode($_COOKIE["userROLE"] ?? '') . '">Enroll</a>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>';
+                        </div>';
                     }
                 }
                 ?>

@@ -2,35 +2,11 @@
 include "../rolleValidation/roleValidaiton.php";
 include "../instance/instace.php";
 include "../class/catigory.php";
-include "../helper/isAccountvalidated.php";
-include "../class/Teacher.php";
 
-$roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Teacher", "../index.php");
-
-$validateStatus = new IsAccountvalidated($pdo);
-$validateStatus->validateAccount($_COOKIE["userID"]);
-
-$accountstatus = $validateStatus->getAccountStatus();
-if ($accountstatus == "Inactive") {
-    header("Location: inactive.php");
-}
+$roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Administrator", "../index.php");
 
 $cotigory = new Category($pdo);
 $results = $cotigory->getCategoryCourseCounts()["categories"];
-
-
-
-$Teacher = new Teacher($pdo);
-$statiscs = [];
-$result = $Teacher->viewCourseStatistics($_COOKIE["userID"]);
-if ($result['status'] == 1) {
-    $statiscs = $result['result'];
-} else {
-    die($result['message']);
-}
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
