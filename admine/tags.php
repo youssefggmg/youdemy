@@ -101,7 +101,7 @@ $tagsList = $tag->listTags()["message"];
                             <a href="tags.php" class="nav-item nav-link">tags</a>
                             <a href="course.php" class="nav-item nav-link">Courses</a>
                             <a href="teacher.php" class="nav-item nav-link">Teachers</a>
-                            <a href="myCourses.php" class="nav-item nav-link">MyCourse's</a>
+                            <a href="users.php" class="nav-item nav-link">Users</a>
                             <a href="contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                         <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block"

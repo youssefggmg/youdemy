@@ -179,7 +179,7 @@ $allCourses = $cours->listAllCourses()["courses"];
                         <div class="navbar-nav py-0">
                             <a href="index.php" class="nav-item nav-link active">Home</a>
                             <a href="tags.php" class="nav-item nav-link">tags</a>
-                            <a href="createCourse.php" class="nav-item nav-link">Add Cours</a>
+                            <a href="users.php" class="nav-item nav-link">Users</a>
                             <a href="teacher.php" class="nav-item nav-link">Teachers</a>
                             <a href="courses.php" class="nav-item nav-link">course's</a>
                         </div>
