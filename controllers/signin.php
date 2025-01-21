@@ -9,8 +9,10 @@ if ($result["status"] == 1) {
     setcookie("userROLE", $resultData["user_type"], time() + 86400, "/");
     if ($resultData["user_type"] == "Student") {
         header("Location: ../user/index.php");
-    } else {
+    } elseif($resultData["user_type"] == "Teacher") {
         header("location: ../teacher/index.php");
+    }elseif ($resultData["user_type"] == "Administrator") {
+        header("location: ../admine/index.php");
     }
 } else {
     header("location: ../index.php?error=" . urlencode($resultData));

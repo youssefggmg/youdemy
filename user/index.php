@@ -1,11 +1,15 @@
 <?php
 include "../rolleValidation/roleValidaiton.php";
 include "../instance/instace.php";
+include "../class/cours.php";
 include "../class/catigory.php";
 include "../helper/isAccountvalidated.php";
 $roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Student", "../index.php");
-$cotigory = new Category($pdo);
-$results = $cotigory->getCategoryCourseCounts()["categories"];
+$cours = new Cours();
+$cours->getConnection($pdo);
+$category = new Category($pdo);
+
+$results = $category->getCategoryCourseCounts()["categories"];
 $validateStatus = new IsAccountvalidated($pdo);
 $validateStatus->validateAccount($_COOKIE["userID"]);
 $accountstatus=$validateStatus->getAccountStatus();

@@ -2,11 +2,17 @@
 include "../rolleValidation/roleValidaiton.php";
 include "../instance/instace.php";
 include "../class/catigory.php";
+include "../class/cours.php";
+include "../class/admine.php";
 
 $roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Administrator", "../index.php");
 
-$cotigory = new Category($pdo);
-$results = $cotigory->getCategoryCourseCounts()["categories"];
+$cours = new Cours();
+$cours->getConnection($pdo);
+$category = new Category($pdo);
+$admine = new Admine($pdo);
+$results = $category->getCategoryCourseCounts()["categories"];
+$platformStatistics = $admine->generatePlatformStatistics()["message"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -125,14 +131,14 @@ $results = $cotigory->getCategoryCourseCounts()["categories"];
                             </svg>
                         </div>
                         <div class="ms-4">
-                            <p class="text-muted mb-0">Total Students</p>
-                            <h3 class="fw-bold mb-0"><?php echo $statiscs['totalEnrollments']; ?></h3>
+                            <p class="text-muted mb-0">Total Users</p>
+                            <h3 class="fw-bold mb-0"><?php echo $platformStatistics['totalUsers']; ?></h3>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Active Courses Card -->
+            <!-- Active Teachers Card -->
             <div class="col-md-6 col-lg-3">
                 <div class="card h-100">
                     <div class="card-body d-flex align-items-center">
@@ -144,13 +150,14 @@ $results = $cotigory->getCategoryCourseCounts()["categories"];
                             </svg>
                         </div>
                         <div class="ms-4">
-                            <p class="text-muted mb-0">totalCourses Courses</p>
-                            <h3 class="fw-bold mb-0"><?php echo $statiscs['totalCourses']; ?></h3>
+                            <p class="text-muted mb-0">Active Teachers</p>
+                            <h3 class="fw-bold mb-0"><?php echo $platformStatistics['activeTeachers']; ?></h3>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Assignments Card -->
+
+            <!-- Inactive Teachers Card -->
             <div class="col-md-6 col-lg-3">
                 <div class="card h-100">
                     <div class="card-body d-flex align-items-center">
@@ -162,40 +169,90 @@ $results = $cotigory->getCategoryCourseCounts()["categories"];
                             </svg>
                         </div>
                         <div class="ms-4">
-                            <p class="text-muted mb-0">number of complated courses </p>
-                            <h3 class="fw-bold mb-0"><?php echo $statiscs['completedEnrollments']; ?></h3>
+                            <p class="text-muted mb-0">Inactive Teachers</p>
+                            <h3 class="fw-bold mb-0"><?php echo $platformStatistics['inactiveTeachers']; ?></h3>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-
-    <!-- About Start -->
-    <div class="container-fluid py-5">
-        <div class="container py-5">
-            <div class="row align-items-center">
-                <div class="col-lg-5">
-                    <img class="img-fluid rounded mb-4 mb-lg-0" src="img/about.jpg" alt="">
-                </div>
-                <div class="col-lg-7">
-                    <div class="text-left mb-4">
-                        <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">About Us</h5>
-                        <h1>Innovative Way To Learn</h1>
+            <!-- Total Courses Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-circle p-3 bg-info bg-opacity-10 text-info">
+                            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="ms-4">
+                            <p class="text-muted mb-0">Total Courses</p>
+                            <h3 class="fw-bold mb-0"><?php echo $platformStatistics['totalCourses']; ?></h3>
+                        </div>
                     </div>
-                    <p>Aliquyam accusam clita nonumy ipsum sit sea clita ipsum clita, ipsum dolores amet voluptua duo
-                        dolores et sit ipsum rebum, sadipscing et erat eirmod diam kasd labore clita est. Diam sanctus
-                        gubergren sit rebum clita amet, sea est sea vero sed et. Sadipscing labore tempor at sit dolor
-                        clita consetetur diam. Diam ut diam tempor no et, lorem dolore invidunt no nonumy stet ea
-                        labore, dolor justo et sit gubergren diam sed sed no ipsum. Sit tempor ut nonumy elitr dolores
-                        justo aliquyam ipsum stet</p>
-                    <a href="" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold mt-2">Learn More</a>
                 </div>
             </div>
+            <!-- Total Approved Courses Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-circle p-3 bg-success bg-opacity-10 text-success">
+                            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6l8 8 8-8M4 18l8-8 8 8">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="ms-4">
+                            <p class="text-muted mb-0">Approved Courses</p>
+                            <h3 class="fw-bold mb-0"><?php echo $platformStatistics['totalApprovedCourses']; ?></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Rejected Courses Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-circle p-3 bg-danger bg-opacity-10 text-danger">
+                            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v12m6-6H6">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="ms-4">
+                            <p class="text-muted mb-0">Rejected Courses</p>
+                            <h3 class="fw-bold mb-0"><?php echo $platformStatistics['totalRejectedCourses']; ?></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Pending Courses Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-circle p-3 bg-warning bg-opacity-10 text-warning">
+                            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="ms-4">
+                            <p class="text-muted mb-0">Pending Courses</p>
+                            <h3 class="fw-bold mb-0"><?php echo $platformStatistics['totalPendingCourses']; ?></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-    <!-- About End -->
 
 
     <!-- Category Start -->

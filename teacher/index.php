@@ -15,7 +15,8 @@ if ($accountstatus == "Inactive") {
     header("Location: inactive.php");
 }
 
-$cotigory = new Category($pdo);
+$cours = new Cours();
+$cours->getConnection($pdo);
 $results = $cotigory->getCategoryCourseCounts()["categories"];
 
 

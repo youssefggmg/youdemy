@@ -163,37 +163,66 @@ class Admine extends User
     public function generatePlatformStatistics()
     {
         try {
+            // Total number of courses
             $query = "SELECT COUNT(*) as total FROM Course";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             $result = $stmt->fetch();
             $totalCourses = $result["total"];
+            // Total number of approved courses
             $query = "SELECT COUNT(*) as approved FROM Course WHERE status = 'approved'";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             $result = $stmt->fetch();
-            $totalApprovedCourses = $result["total"];
+            $totalApprovedCourses = $result["approved"];
+            // Total number of rejected courses
             $query = "SELECT COUNT(*) as rejected FROM Course WHERE status = 'rejected'";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             $result = $stmt->fetch();
-            $totalRejectedCourses = $result["total"];
+            $totalRejectedCourses = $result["rejected"];
+            // Total number of pending courses
             $query = "SELECT COUNT(*) as pending FROM Course WHERE status = 'pending'";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             $result = $stmt->fetch();
-            $totalPendingCourses = $result["total"];
+            $totalPendingCourses = $result["pending"];
+            // Total number of users
+            $query = "SELECT COUNT(*) as totalUsers FROM User";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $totalUsers = $result["totalUsers"];
+            // Total number of active teachers
+            $query = "SELECT COUNT(*) as activeTeachers FROM User WHERE account_status = 'Active' and user_type = 'Teacher'";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $activeTeachers = $result["activeTeachers"];
+            // Total number of inactive teachers
+            $query = "SELECT COUNT(*) as inactiveTeachers FROM User WHERE account_status = 'Inactive' and  user_type = 'Teacher'";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $inactiveTeachers = $result["inactiveTeachers"];
+            // Compile the statistics
             $platformStatistics = [
                 "totalCourses" => $totalCourses,
                 "totalApprovedCourses" => $totalApprovedCourses,
                 "totalRejectedCourses" => $totalRejectedCourses,
-                "totalPendingCourses" => $totalPendingCourses
-                ];
-                return ["status"=>1,"message"=>$platformStatistics];
+                "totalPendingCourses" => $totalPendingCourses,
+                "totalUsers" => $totalUsers,
+                "activeTeachers" => $activeTeachers,
+                "inactiveTeachers" => $inactiveTeachers
+            ];
+
+            return ["status" => 1, "message" => $platformStatistics];
+
         } catch (PDOException $e) {
             return ["status" => 0, "error" => "Error: " . $e->getMessage()];
         }
     }
-    
+
+
 }
 ?>
