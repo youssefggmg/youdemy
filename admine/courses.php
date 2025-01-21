@@ -178,7 +178,7 @@ $allCourses = $cours->listAllCourses()["courses"];
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav py-0">
                             <a href="index.php" class="nav-item nav-link active">Home</a>
-                            <a href="about.php" class="nav-item nav-link">About</a>
+                            <a href="tags.php" class="nav-item nav-link">tags</a>
                             <a href="createCourse.php" class="nav-item nav-link">Add Cours</a>
                             <a href="teacher.php" class="nav-item nav-link">Teachers</a>
                             <a href="courses.php" class="nav-item nav-link">course's</a>
@@ -209,26 +209,36 @@ $allCourses = $cours->listAllCourses()["courses"];
                 <tr>
                     <td><?= $acours->__get("title") ?></td>
                     <td><?= $acours->__get("description") ?></td>
-                    <td><?= $acours->__get("description") ?></td>
+                    <td><?= $acours->__get("contentType") ?></td>
                     <td>
-                        <select onchange="updateStatus(this, <?= $acours->__get('id')?>)">
-                            <option value="pending" <?= $acours->__get('status') == 'pending' ? 'selected' : '' ?>>Pending</option>
-                            <option value="accepted" <?= $acours->__get('status') == 'accepted' ? 'selected' : '' ?>>Accepted</option>
-                            <option value="rejected" <?= $acours->__get('status') == 'rejected' ? 'selected' : '' ?>>Rejected</option>
+                        <select onchange="updateStatus(this, <?= $acours->__get('id') ?>)">
+                            <option value="pending" <?= $acours->__get('status') == 'pending' ? 'selected' : '' ?>>Pending
+                            </option>
+                            <option value="accepted" <?= $acours->__get('status') == 'accepted' ? 'selected' : '' ?>>Accepted
+                            </option>
+                            <option value="rejected" <?= $acours->__get('status') == 'rejected' ? 'selected' : '' ?>>Rejected
+                            </option>
                         </select>
                     </td>
-                    <td><?= $acours->__get('creation_date')?></td>
+                    <td><?= $acours->__get('creation_date') ?></td>
                     <td>
                         <div class="action-buttons">
-                            <button class="view-btn" ><a href="">View Content</a></button>
-                            <button class="delete-btn">Delete</button>
+                            <button class="view-btn"><a href="single.php?courseID=<?= $acours->__get("id") ?>">View
+                                    Content</a></button>
+                            <button class="delete-btn"><a
+                                    href="../controllers/admine/deletecourse.php?courseID=<?= $acours->__get("id") ?>">Delete</a></button>
                         </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
-            <!-- Add more rows as needed -->
         </tbody>
     </table>
+    <script>
+        function updateStatus(selectElement, courseId) {
+            const newStatus = selectElement.value;
+            fetch(`../controllers/admine/changeCoursStatus.php?id=${courseId}&status=${newStatus}`)
+        }
+    </script>
 
 
 </body>

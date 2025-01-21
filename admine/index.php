@@ -104,7 +104,7 @@ $platformStatistics = $admine->generatePlatformStatistics()["message"];
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav py-0">
                             <a href="index.php" class="nav-item nav-link active">Home</a>
-                            <a href="about.php" class="nav-item nav-link">About</a>
+                            <a href="tags.php" class="nav-item nav-link">tags</a>
                             <a href="createCourse.php" class="nav-item nav-link">Add Cours</a>
                             <a href="teacher.php" class="nav-item nav-link">Teachers</a>
                             <a href="courses.php" class="nav-item nav-link">course's</a>

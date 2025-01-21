@@ -3,7 +3,7 @@ include "../rolleValidation/roleValidaiton.php";
 include "../instance/instace.php";
 include "../class/cours.php";
 include "../helper/isAccountvalidated.php";
-$roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Student", "../index.php");
+$roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Administrator", "../index.php");
 $cours = new Cours();
 $cours->getConnection($pdo);
 $coursInfo = $cours->getCourseDetails($_GET["courseID"]);
@@ -111,7 +111,7 @@ if ($accountstatus=="Inactive") {
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav py-0">
                             <a href="index.php" class="nav-item nav-link active">Home</a>
-                            <a href="about.php" class="nav-item nav-link">About</a>
+                            <a href="tags.php" class="nav-item nav-link">tags</a>
                             <a href="course.php" class="nav-item nav-link">Courses</a>
                             <a href="teacher.php" class="nav-item nav-link">Teachers</a>
                             <a href="myCourses.php" class="nav-item nav-link">MyCourse's</a>

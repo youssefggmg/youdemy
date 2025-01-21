@@ -19,7 +19,7 @@ class Cours
         $video = "",
         $status = "",
         $contentType = "",
-        $creation_date=""
+        $creation_date = ""
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -293,6 +293,21 @@ class Cours
             } else {
                 return ["status" => 0, "message" => "No courses found."];
             }
+        } catch (PDOException $e) {
+            return ["status" => 0, "error" => "Error: " . $e->getMessage()];
+        }
+    }
+    public function changeStatus($id, $status)
+    {
+        try {
+            $query = "UPDATE Course SET status = :status WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([
+                "id" => $id,
+                "status" => $status
+            ]);
+            echo json_encode(["status" => 1, "message" => "Status updated successfully."]);
+            exit;
         } catch (PDOException $e) {
             return ["status" => 0, "error" => "Error: " . $e->getMessage()];
         }

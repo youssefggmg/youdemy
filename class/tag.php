@@ -6,15 +6,18 @@ class tag
     {
         $this->db = $db;
     }
-    public function createTags($tags)
+    public function createTags($tags, $numTags)
     {
         try {
-            $sql = "INSERT INTO Tag (name) VALUES (:name)";
+            $placeholders = array_fill(0, $numTags, "(?)");
+            $sql = "INSERT INTO Tag (name) VALUES " . implode(", ", $placeholders);
             $stmt = $this->db->prepare($sql);
-            foreach ($tags as $tag) {
-                $stmt->execute(['name' => $tag]);
+            $tagValues = [];
+            for ($i = 0; $i < $numTags; $i++) {
+                $tagValues[] = $tags["tag" . ($i + 1)];
             }
-            return ["status" => 1, "message" => count($tags) . " tags created successfully."];
+            $stmt->execute($tagValues);
+            return ["status" => 1, "message" => "$numTags tags created successfully."];
         } catch (PDOException $e) {
             return [
                 "status" => 0,
@@ -58,7 +61,7 @@ class tag
             foreach ($tags as $tag) {
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([
-                    'course_id' =>$courseId,
+                    'course_id' => $courseId,
                     'tag_id' => $tag
                 ]);
             }
