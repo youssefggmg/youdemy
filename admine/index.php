@@ -11,6 +11,7 @@ $cours = new Cours();
 $cours->getConnection($pdo);
 $category = new Category($pdo);
 $admine = new Admine($pdo);
+$allCourses = $cours->listAllCourses()["courses"];
 $results = $category->getCategoryCourseCounts()["categories"];
 $platformStatistics = $admine->generatePlatformStatistics()["message"];
 ?>
@@ -106,8 +107,7 @@ $platformStatistics = $admine->generatePlatformStatistics()["message"];
                             <a href="about.php" class="nav-item nav-link">About</a>
                             <a href="createCourse.php" class="nav-item nav-link">Add Cours</a>
                             <a href="teacher.php" class="nav-item nav-link">Teachers</a>
-                            <a href="myCourses.php" class="nav-item nav-link">MyCourse's</a>
-                            <a href="contact.php" class="nav-item nav-link">Contact</a>
+                            <a href="courses.php" class="nav-item nav-link">course's</a>
                         </div>
                         <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block"
                             href="../controllers/logout.php">Logout</a>
@@ -253,6 +253,38 @@ $platformStatistics = $admine->generatePlatformStatistics()["message"];
 
         </div>
     </div>
+    <!-- Most Enrolled Course Card Section -->
+    <div class="course-highlight-section"
+        style="font-family: Arial, sans-serif; background-color: #f1f3f5; padding: 30px; text-align: center;">
+        <h2 style="color: #495057; margin-bottom: 10px;">Explore Our Top Course</h2>
+
+
+        <!-- Most Enrolled Course Card -->
+        <div class="most-enrolled-card"
+            style="margin: 0 auto; max-width: 500px; padding: 20px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <div class="card-container" style="display: flex; align-items: center;">
+                <div class="icon-wrapper"
+                    style="background-color: #d4edda; padding: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 20px;">
+                    <svg width="50" height="50" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="icon"
+                        style="color: #28a745;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                        </path>
+                    </svg>
+                </div>
+                <div class="text-wrapper" style="display: flex; flex-direction: column; text-align:center; width:100%">
+                    <h4 class="course-name" style="font-size: 22px; font-weight: bold; color: #212529; margin: 5px 0; text-align:center">
+                    <?php 
+                    echo $platformStatistics['mostEnrolledCourse']['title']; ?></h4>
+                    
+                </div>
+            </div>
+            <p style="margin-top: 15px; color: #868e96; font-size: 14px;"><?php 
+                    echo $platformStatistics['mostEnrolledCourse']['description']; ?>
+                </p>
+        </div>
+    </div>
+
 
 
     <!-- Category Start -->

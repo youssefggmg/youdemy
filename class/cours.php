@@ -8,9 +8,18 @@ class Cours
     private $video;
     private $status;
     private $contentType;
+    private $creation_date;
     private $db;
 
-    public function __construct($id = "",$title = "",$description = "",$content = "",$video = "",$status = "",$contentType = ""
+    public function __construct(
+        $id = "",
+        $title = "",
+        $description = "",
+        $content = "",
+        $video = "",
+        $status = "",
+        $contentType = "",
+        $creation_date=""
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -19,8 +28,10 @@ class Cours
         $this->video = $video;
         $this->status = $status;
         $this->contentType = $contentType;
+        $this->creation_date = $creation_date;
     }
-    public function getConnection($db){
+    public function getConnection($db)
+    {
         $this->db = $db;
     }
     public function __get($name)
@@ -162,14 +173,14 @@ class Cours
             $query = "SELECT * FROM Course WHERE status = 'approved'";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
-    
+
             $courses = $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative arrays
             $theCourses = [];
-    
+
             foreach ($courses as $course) {
-                $theCourses[] = new Cours($course["id"] ?? "",$course["title"] ?? "",$course["description"] ?? "",$course["content"] ?? "",$course["vedio_url"] ?? "", $course["status"] ?? "",$course["content_type"] ?? "");
+                $theCourses[] = new Cours($course["id"] ?? "", $course["title"] ?? "", $course["description"] ?? "", $course["content"] ?? "", $course["vedio_url"] ?? "", $course["status"] ?? "", $course["content_type"] ?? "");
             }
-    
+
             if (!empty($theCourses)) {
                 return ["status" => 1, "courses" => $theCourses];
             } else {
@@ -253,5 +264,39 @@ class Cours
             ]);
         }
     }
+    // List all courses (approved, rejected, pending)
+    public function listAllCourses()
+    {
+        try {
+            $query = "SELECT * FROM Course";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+
+            $courses = $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative arrays
+            $theCourses = [];
+
+            foreach ($courses as $course) {
+                $theCourses[] = new Cours(
+                    $course["id"] ?? "",
+                    $course["title"] ?? "",
+                    $course["description"] ?? "",
+                    $course["content"] ?? "",
+                    $course["vedio_url"] ?? "",
+                    $course["status"] ?? "",
+                    $course["content_type"] ?? "",
+                    $course["created_at"]
+                );
+            }
+
+            if (!empty($theCourses)) {
+                return ["status" => 1, "courses" => $theCourses];
+            } else {
+                return ["status" => 0, "message" => "No courses found."];
+            }
+        } catch (PDOException $e) {
+            return ["status" => 0, "error" => "Error: " . $e->getMessage()];
+        }
+    }
+
 }
 ?>

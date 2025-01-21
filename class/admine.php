@@ -206,6 +206,15 @@ class Admine extends User
             $result = $stmt->fetch();
             $inactiveTeachers = $result["inactiveTeachers"];
             // Compile the statistics
+            $query = "SELECT *, 
+                         (SELECT COUNT(*) FROM Enrollment WHERE course_id = Course.id) as enrollment_count 
+                  FROM Course
+                  ORDER BY enrollment_count DESC
+                  LIMIT 1";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $mostEnrolledCourse = $stmt->fetch();
+            
             $platformStatistics = [
                 "totalCourses" => $totalCourses,
                 "totalApprovedCourses" => $totalApprovedCourses,
@@ -213,7 +222,8 @@ class Admine extends User
                 "totalPendingCourses" => $totalPendingCourses,
                 "totalUsers" => $totalUsers,
                 "activeTeachers" => $activeTeachers,
-                "inactiveTeachers" => $inactiveTeachers
+                "inactiveTeachers" => $inactiveTeachers,
+                "mostEnrolledCourse"=>$mostEnrolledCourse
             ];
 
             return ["status" => 1, "message" => $platformStatistics];
