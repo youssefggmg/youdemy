@@ -1,15 +1,38 @@
+<?php
+include "../rolleValidation/roleValidaiton.php";
+include "../instance/instace.php";
+include "../class/admine.php";
+
+$roleValidaiton = new RoleValidaiton($_COOKIE["userROLE"], "Administrator", "../index.php");
+$admine = new Admine($pdo);
+$allStudents = $admine->getAllStudents()["message"];
+$allTeachers = $admine->getTeachersAccount()["message"];
+?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>User Management - ECOURSES</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/userPgae.css">
 </head>
 
 <body>
-<div class="container-fluid d-none d-lg-block">
+    <div class="container-fluid d-none d-lg-block">
         <div class="row align-items-center py-4 px-xl-5">
             <div class="col-lg-3">
                 <a href="" class="text-decoration-none">
@@ -99,28 +122,36 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>John Doe</td>
-                            <td class="user-email">john.doe@example.com</td>
-                            <td>
-                                <span class="status-badge status-active">
-                                    Active
-                                </span>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-activate">
-                                        Activate
-                                    </button>
-                                    <button class="btn btn-deactivate">
-                                        Deactivate
-                                    </button>
-                                    <button class="btn btn-delete">
-                                        Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        <?php foreach ($allStudents as $student): ?>
+
+                            <tr>
+                                <td><?= $student["name"] ?></td>
+                                <td class="user-email"><?= $student["email"] ?></td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <?= $student["account_status"] ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <?php if ($student["account_status"] == "Inactive"): ?>
+                                            <button class="btn btn-activate">
+                                                <a href="../controllers/activate.php?userID=<?= $student["id"] ?>">Activate</a>
+                                            </button>
+                                        <?php else: ?>
+                                            <button class="btn btn-deactivate">
+                                                <a
+                                                    href="../controllers/disActivate.php?userID=<?= $student["id"] ?>">Deactivate</a>
+                                            </button>
+                                        <?php
+                                        endif; ?>
+                                        <button class="btn btn-delete">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -132,37 +163,35 @@
             <div class="table-container">
                 <table id="teachersTable">
                     <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Jane Smith</td>
-                            <td class="user-email">jane.smith@example.com</td>
-                            <td>
-                                <span class="status-badge status-active">
-                                    Active
-                                </span>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-activate">
-                                        Activate
-                                    </button>
-                                    <button class="btn btn-deactivate">
-                                        Deactivate
-                                    </button>
-                                    <button class="btn btn-delete">
-                                        Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
+                        <?php foreach ($allTeachers as $teacher): ?>
+                            <tr>
+                                <td><?= $teacher["name"] ?></td>
+                                <td class="user-email"><?= $teacher["email"] ?></td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <?= $teacher["account_status"] ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <?php if ($teacher["account_status"] == "Inactive"): ?>
+                                            <button class="btn btn-activate">
+                                                Activate
+                                            </button>
+                                        <?php else: ?>
+                                            <button class="btn btn-deactivate">
+                                                Deactivate
+                                            </button>
+                                        <?php
+                                        endif ?>
+                                        <button class="btn btn-delete">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
                 </table>
             </div>
         </div>
@@ -172,4 +201,5 @@
         <span id="toastMessage"></span>
     </div>
 </body>
+
 </html>
